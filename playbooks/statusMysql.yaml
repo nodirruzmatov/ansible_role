@@ -1,0 +1,23 @@
+---
+- name: status mysql
+  hosts: 192.168.33.195
+  become: true
+  tasks:
+    - name: systemctl status mysql
+      service:
+        name: mysql
+      register: database_status
+
+    - name: debug
+      debug:
+        var: database_status.status.ActiveState
+
+    - name: up
+      debug:
+        msg: "MySQL is up"
+      when: database_status.status.ActiveState == "active"
+    
+    - name: down
+      debug:
+        msg: "MySQL is down"
+      when: database_status.status.ActiveState != "active"

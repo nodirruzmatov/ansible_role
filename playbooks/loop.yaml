@@ -1,0 +1,20 @@
+---
+- name: loop
+  hosts: all
+  become: true
+  tasks:
+    - name: apt
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - htop
+        - iftop
+        - atop
+        - curl
+      when: item != 'curl'
+      register: log
+
+    - name: log
+      debug:
+        var: log

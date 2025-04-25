@@ -1,0 +1,50 @@
+---
+# tasks file for roles/nginx
+- name: debian sistemani yangilash
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: yes
+  when: ansible_facts.pkg_mgr == 'apt'
+
+- name: redhat sistemani yangilash
+  ansible.builtin.yum:
+    update_cache: true
+    cache_valid_time: 3600
+    upgrade: yes
+  when: ansible_facts.pkg_mgr == 'yum'
+
+- name: "debian nginxni o'rnatish"
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+  when: ansible_facts.pkg_mgr == 'apt'
+
+- name: "redhat nginxni o'rnatish"
+  ansible.builtin.yum:
+    name: nginx
+    state: present
+  when: ansible_facts.pkg_mgr == 'yum'
+
+- name: "templat ko'chirish"
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/sites-available/{{ server_name }}"
+
+- name: link config
+  ansible.builtin.file:
+    src: "/etc/nginx/sites-available/{{ server_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ server_name }}"
+    state: link
+  notify: restart nginx
+
+- name: papka yaratish
+  ansible.builtin.file:
+    path: "{{ root_dir }}"
+    state: directory
+
+- name: "web sahifani ko'chirish"
+  ansible.builtin.copy:
+    src: files/index.html
+    dest: "{{ root_dir }}/index.html"
+

@@ -1,0 +1,20 @@
+---
+- name: status
+  hosts: 192.168.33.195
+  become: true
+  tasks:
+    - name: bin status
+      command: echo "Hello World"
+      register: status_bin
+
+    - name: stdout
+      debug:
+        var: status_bin.stdout_lines
+
+    - name: stderr
+      debug:
+        var: status_bin.stderr_lines
+    
+    - name: return code
+      debug:
+        var: status_bin.rc

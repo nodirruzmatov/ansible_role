@@ -1,0 +1,42 @@
+---
+- name: mysql sever
+  hosts: 192.168.33.195
+  become: true
+
+  roles:
+    - role: geerlingguy.mysql
+      vars:
+        # Root foydalanuvchi sozlamalari
+        mysql_user_name: root
+        mysql_user_password: root
+        mysql_root_username: root
+        mysql_root_password: root
+
+        # Xizmat va konfiguratsiya fayllari
+        mysql_enabled_on_startup: true
+        mysql_config_file: /etc/my.cnf
+        mysql_config_include_dir: /etc/my.cnf.d
+        mysql_copy_root_user_mycnf: true
+
+        # Repolar (RHEL/CentOS uchun)
+        mysql_enablerepo: "remi,epel"
+
+        # Debian/Ubuntu uchun Python kutubxonasi
+        mysql_python_package_debian: python3-mysqldb
+
+        # Tarmoq sozlamalari
+        mysql_port: "3306"
+        mysql_bind_address: "0.0.0.0"
+
+        # Yaratiladigan baza
+        mysql_databases:
+          - name: nodir_db
+            encoding: utf8mb4
+            collation: utf8mb4_general_ci
+
+        # Yaratiladigan foydalanuvchi
+        mysql_users:
+          - name: nodir
+            host: "%"
+            password: "12345"
+            priv: "nodir_db.*:ALL"

@@ -1,0 +1,18 @@
+---
+- name: "fakt2"
+  hosts: all
+  become: true
+  vars:
+    host_name: 'nodir'
+  tasks:
+    - name: apt
+      apt:
+        name: nginx
+        state: present
+      when: ansible_facts.pkg_mgr == 'apt'
+
+    - name: yum
+      yum:
+        name: nginx
+        state: present
+      when: ansible_facts.pkg_mgr == 'yum'

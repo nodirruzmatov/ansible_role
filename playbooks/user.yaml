@@ -1,0 +1,26 @@
+---
+- name: user
+  hosts: all
+  become: true
+  vars:
+    users:
+      - name: user1
+        passwd: "{{ '132' | password_hash('sha512') }}"
+      - name: user2
+        passwd: "{{ '231' | password_hash('sha512') }}"
+      - name: user3
+        passwd: "{{ '312' | password_hash('sha512') }}"
+  tasks:
+    - name: sudo Install
+      apt:
+        name: sudo
+        state: present
+      when: ansible_facts.pkg_mgr == 'apt'
+    
+    - name: create user
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        password: "{{ item.passwd }}"
+        shell: /bin/bash
+        groups: sudo
+      loop: "{{ users }}"

@@ -1,0 +1,7 @@
+---
+# defaults file for roles/nginx
+listen_port: 80
+server_name: nodir.uz
+root_dir: /var/www/nodir.uz
+access_log: /var/log/nginx/access.log
+error_log: /var/log/nginx/error.log

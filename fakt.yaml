@@ -1,0 +1,23 @@
+---
+- name: fakt
+  hosts: all
+  become: true
+  tasks:
+    - name: all
+      debug:
+        var: ansible_facts
+    - name: ip
+      debug:
+        var: ansible_facts.default_ipv4.address
+    - name: gateway
+      debug:
+        var: ansible_facts.default_ipv4.gateway
+    - name: os
+      debug:
+        var: ansible_facts.os_family
+    - name: paket
+      debug:
+        var: ansible_facts.pkg_mgr     
+    - name: disk
+      debug:
+        var: ansible_facts.devices.sda.partitions.sda1.size

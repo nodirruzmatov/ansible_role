@@ -1,0 +1,13 @@
+---
+- name: 3.4
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: ozgartirish
+      set_fact:
+        ansible_facts:
+          os_family: "nodir"
+        
+    - name: Display IP address
+      debug:
+        var: ansible_facts.os_family
