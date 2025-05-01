@@ -1,0 +1,10 @@
+---
+- name: nimadur
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Render nginx config using template
+      template:
+        src: ../templates/jinja3.conf.j2
+        dest: /tmp/nginx.conf

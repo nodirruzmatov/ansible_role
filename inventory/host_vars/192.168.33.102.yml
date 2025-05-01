@@ -1,0 +1,5 @@
+env: staging
+debug_mode: false
+log_dir: /var/log/nginx
+access_log: /var/log/stag.log
+ssl_certificate: /etc/nginx/ssl/cert.pem

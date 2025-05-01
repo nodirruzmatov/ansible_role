@@ -1,0 +1,32 @@
+---
+- name: "templat ko'chirish"
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: copy config
+      vars:
+        server_name: "nimadur.uz"
+      ansible.builtin.copy:
+        src: /home/nodir/templatesnginx.conf.j2
+        dest: "/etc/nginx/sites-enabled/{{ server_name }}"
+      notify: restart nginx
+
+    - name: flush handlers
+      ansible.builtin.meta: flush_handlers
+
+    - name: copy config
+      vars:
+        server_name: "nimadur2.uz"
+      ansible.builtin.copy:
+        src: ../templates/nginx.conf.j2
+        dest: "/etc/nginx/sites-enabled/{{ server_name }}"
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      become: true
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+        enabled: true

@@ -1,0 +1,18 @@
+---
+- name: nimadur
+  hosts: 192.168.33.195
+  become: true
+  gather_facts: false
+  # vars:
+  #   path: "/etc/nginx/sites-available/example.conf"
+  #   path2: "../"
+  tasks:
+    - name: Debug path variables
+      ansible.builtin.debug:
+        msg:
+          - "path: {{ path }}"
+          - "path2: {{ path2 }}"
+    - name: jinja2
+      template:
+        src: ../templates/nginx.conf.j2
+        dest: /tmp/ilova.conf

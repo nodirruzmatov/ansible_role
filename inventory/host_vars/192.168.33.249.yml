@@ -1,0 +1,5 @@
+env: production
+debug_mode: false
+log_dir: /var/log/nginx
+access_log: /var/log/prod.log
+ssl_certificate: /etc/nginx/ssl/cert.pem

@@ -1,0 +1,28 @@
+server {
+    {% if env == 'development' %}
+    listen 8080;
+    {% elif env == 'staging' %}
+    listen 9090;
+    {% else %}
+    listen 80;
+    listen 443 ssl;
+    {% endif %}
+
+    {% if debug_mode %}
+    debug_mode on;
+    {% else %}
+    debug_mode off;
+    {% endif %}
+
+    log_dir = {{ log_dir }};
+
+    {% if env == "development" %}
+    access_log /var/log/dev.log;
+    {% elif env == "staging" %}
+    access_log /var/log/stag.log;
+    {% else %}
+    access_log /var/log/prod.log;
+    {% endif %}
+    
+    ssl_certificate = {{ ssl_certificate }};
+}

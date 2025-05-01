@@ -1,0 +1,17 @@
+1.################
+ignore_ips ={% for ip in ignore_ip_list %} {{ ip }}{% endfor %}
+
+2.#################
+{% for user in users %}
+user = {{ user.name }} role = {{ user.role }}{% if not loop.last %}, {% else %};{% endif %}
+{% endfor %}
+
+3.#####
+{%for b in buyurtmalar%}
+{{loop.index0}}. {{b}}
+{%endfor%}
+
+4.###########
+{%for k, v in tarmoq_sozlamasi.items()%}
+{{k}} = {{v}};
+{%endfor%}
